@@ -40,6 +40,7 @@
             height: 100%;
             object-fit: cover;
             filter: brightness(0.6) contrast(1.1);
+            background: #000;
         }
 
         .video-overlay {
@@ -154,6 +155,12 @@
         // Initial play (muted) to ensure visual content is ready
         window.addEventListener('load', () => {
             console.log('Window loaded, attempting to play video');
+            console.log('Video source:', video.querySelector('source').src);
+            console.log('Video readyState:', video.readyState);
+            
+            // Force load
+            video.load();
+            
             video.play().then(() => {
                 console.log('Video started playing');
             }).catch((error) => {
@@ -163,14 +170,21 @@
 
         enterBtn.addEventListener('click', () => {
             console.log('Enter button clicked');
+            
+            // Force video to load and play
+            video.load();
+            
             // Unmute and restart on user interaction
             video.muted = false;
             video.currentTime = 0; 
-            video.play().then(() => {
-                console.log('Video restarted after click');
-            }).catch((error) => {
-                console.log('Failed to play video after click', error);
-            });
+            
+            setTimeout(() => {
+                video.play().then(() => {
+                    console.log('Video restarted after click');
+                }).catch((error) => {
+                    console.log('Failed to play video after click', error);
+                });
+            }, 100);
             
             // UI Transition
             enterScreen.style.opacity = '0';
