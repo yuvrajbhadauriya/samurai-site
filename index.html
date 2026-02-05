@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesselonix | Hero Section</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent-red: #FF3131;
+            --dark-bg: #0a0a0a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: var(--dark-bg);
+            color: #e5e5e5;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        .font-cinzel { font-family: 'Cinzel', serif; }
+
+        /* Video Background Styling */
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        #hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6) contrast(1.1);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+        }
+
+        /* Interaction Screen (Required for Audio) */
+        #enter-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .red-glow {
+            text-shadow: 0 0 20px var(--accent-red);
+        }
+
+        .enter-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .enter-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .enter-btn:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Interaction Gate -->
+    <div id="enter-screen">
+        <div class="text-center">
+            <h2 class="font-cinzel text-3xl mb-12 tracking-[0.5em] text-white opacity-80">TESSELONIX</h2>
+            <button id="enter-btn" class="enter-btn px-10 py-4 text-white font-cinzel tracking-[0.3em] uppercase text-sm border border-white/20 hover:border-white/80">
+                Witness the Void
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-10 py-8 flex justify-between items-center">
+        <div class="font-cinzel text-2xl font-bold tracking-widest text-white mix-blend-difference">
+            TESSELONIX
+        </div>
+        <div class="flex gap-8 text-[10px] tracking-[0.3em] uppercase font-bold text-white mix-blend-difference">
+            <a href="https://cominiti.co" target="_blank" class="hover:text-red-500 transition-colors">Cominiti</a>
+            <a href="#" class="opacity-50 cursor-not-allowed italic">Experience</a>
+        </div>
+    </nav>
+
+    <!-- Main Hero -->
+    <main class="relative h-screen flex flex-col items-center justify-center">
+        <div id="video-container">
+            <!-- Ensure Video-406.mp4 is in the same folder as this file -->
+            <video id="hero-video" loop playsinline preload="auto" muted controls>
+                <source src="assets/Video-406.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4">
+            <h1 class="font-cinzel text-5xl md:text-8xl mb-6 red-glow tracking-[-0.05em] leading-tight">
+                THE SILENT <br> <span class="text-white">RONIN</span>
+            </h1>
+            <p class="text-gray-400 max-w-md mx-auto text-xs tracking-[0.4em] uppercase opacity-70 leading-loose">
+                Digital Sovereignty & Creative Warfare
+            </p>
+            
+            <!-- Minimal Scroll Indicator -->
+            <div class="absolute bottom-[-150px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+                <span class="text-[8px] tracking-[0.5em] text-white/30 uppercase">Scroll</span>
+                <div class="h-16 w-px bg-gradient-to-b from-red-600 to-transparent"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const enterBtn = document.getElementById('enter-btn');
+        const enterScreen = document.getElementById('enter-screen');
+        const video = document.getElementById('hero-video');
+
+        // Add debugging event listeners
+        video.addEventListener('loadstart', () => console.log('Video load start'));
+        video.addEventListener('canplay', () => console.log('Video can play'));
+        video.addEventListener('play', () => console.log('Video playing'));
+        video.addEventListener('error', (e) => console.log('Video error:', e));
+        video.addEventListener('loadeddata', () => console.log('Video data loaded'));
+
+        // Initial play (muted) to ensure visual content is ready
+        window.addEventListener('load', () => {
+            console.log('Window loaded, attempting to play video');
+            video.play().then(() => {
+                console.log('Video started playing');
+            }).catch((error) => {
+                console.log("Autoplay blocked by browser. Awaiting interaction.", error);
+            });
+        });
+
+        enterBtn.addEventListener('click', () => {
+            console.log('Enter button clicked');
+            // Unmute and restart on user interaction
+            video.muted = false;
+            video.currentTime = 0; 
+            video.play().then(() => {
+                console.log('Video restarted after click');
+            }).catch((error) => {
+                console.log('Failed to play video after click', error);
+            });
+            
+            // UI Transition
+            enterScreen.style.opacity = '0';
+            enterScreen.style.pointerEvents = 'none';
+            
+            setTimeout(() => {
+                enterScreen.style.display = 'none';
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
