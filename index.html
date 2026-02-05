@@ -32,7 +32,7 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            z-index: -1;
+            z-index: 1;
         }
 
         #hero-video {
@@ -41,6 +41,7 @@
             object-fit: cover;
             filter: brightness(0.6) contrast(1.1);
             background: #000;
+            display: block;
         }
 
         .video-overlay {
@@ -50,6 +51,8 @@
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+            pointer-events: none;
+            z-index: 2;
         }
 
         /* Interaction Screen (Required for Audio) */
@@ -115,7 +118,7 @@
     </nav>
 
     <!-- Main Hero -->
-    <main class="relative h-screen flex flex-col items-center justify-center">
+    <main class="relative h-screen flex flex-col items-center justify-center z-10">
         <div id="video-container">
             <!-- Ensure Video-406.mp4 is in the same folder as this file -->
             <video id="hero-video" loop playsinline preload="auto" muted>
@@ -133,7 +136,7 @@
             </p>
             
             <!-- Minimal Scroll Indicator -->
-            <div class="absolute bottom-[-150px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+            <div class="absolute bottom-[-150px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-10">
                 <span class="text-[8px] tracking-[0.5em] text-white/30 uppercase">Scroll</span>
                 <div class="h-16 w-px bg-gradient-to-b from-red-600 to-transparent"></div>
             </div>
